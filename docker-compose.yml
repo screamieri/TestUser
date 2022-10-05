@@ -11,7 +11,7 @@ services:
       DB_USR: user
       DB_PSW: password
     ports:
-      - '8080:8080'  
+      - '8081:8080'
     depends_on:
       - "database-container"
     build: .
@@ -29,6 +29,3 @@ services:
       - '3307:3306'
     volumes:
       - /home/andrea/Desktop/testdb/:/var/lib/mysql
-networks:
-  network-app:
-    external: true 

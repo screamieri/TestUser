@@ -2,6 +2,7 @@ package it.andreascrimieri.test.service;
 
 import it.andreascrimieri.test.controller.dto.UserDTO;
 import it.andreascrimieri.test.exception.FileException;
+import it.andreascrimieri.test.exception.NotFoundException;
 import it.andreascrimieri.test.mapper.UserMapper;
 import it.andreascrimieri.test.model.User;
 import it.andreascrimieri.test.repository.UserRepository;
@@ -9,6 +10,7 @@ import it.andreascrimieri.test.util.CSVHelper;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,20 +43,22 @@ public class UserService {
     }
 
     public List<UserDTO> findByNomeCognome(String nome, String cognome) {
-        List<User> userList = new ArrayList<>();
+        List<User> userList;
         if (nome != null && cognome != null) {
             userList = userRepository.findByNomeAndCognome(nome, cognome);
         } else if (nome != null) {
             userList = userRepository.findByNome(nome);
         } else if (cognome != null) {
             userList = userRepository.findByCognome(cognome);
+        } else {
+            userList = userRepository.findAll();
         }
 
         List<UserDTO> userDTOList = new ArrayList<>();
         if (userList.size() > 0) {
             userDTOList = userList.stream().map(userMapper::toUserDTO).collect(Collectors.toList());
         }
-        logger.info("[findByNomeCognome] :: found {} users matching filers nome '{}' and cognome '{}'", userDTOList.size(), nome, cognome);
+        logger.info("[findByNomeCognome] :: found {} users matching filer", userDTOList.size());
         return userDTOList;
     }
 
@@ -99,8 +103,13 @@ public class UserService {
     }
 
     public void delete(Long id) {
-        logger.info("[save] :: deleting user with id {}", id);
-        userRepository.deleteById(id);
+        logger.info("[delete] :: deleting user with id {}", id);
+        try {
+            userRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException ex) {
+            logger.error("[delete] :: no user with id {} exists", id);
+            throw new NotFoundException("User not found", ex);
+        }
     }
 
     public List<UserDTO> importFromcsv(MultipartFile csvFile) {

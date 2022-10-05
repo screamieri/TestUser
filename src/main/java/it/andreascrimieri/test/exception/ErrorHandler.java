@@ -11,7 +11,14 @@ public class ErrorHandler {
 
     @ExceptionHandler(FileException.class)
     public ResponseEntity<RestResponse<UserDTO>> fileException(Exception exception) {
-        RestResponse<UserDTO> response = new RestResponse<>(0, exception.getMessage(), null);
+        RestResponse<UserDTO> response = new RestResponse<>(RestResponse.ERROR_CODE, exception.getMessage(), null);
         return ResponseEntity.badRequest().body(response);
     }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<RestResponse<UserDTO>> notFoundException(Exception exception) {
+        RestResponse<UserDTO> response = new RestResponse<>(RestResponse.SUCCESS_CODE, exception.getMessage(), null);
+        return ResponseEntity.ok(response);
+    }
 }
+
