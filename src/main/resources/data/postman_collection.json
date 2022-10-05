@@ -136,7 +136,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/user?nome=giorgio&cognome=tirella",
+					"raw": "localhost:8080/user?nome=andrea&cognome=scrimieri",
 					"host": [
 						"localhost"
 					],
@@ -147,11 +147,11 @@
 					"query": [
 						{
 							"key": "nome",
-							"value": "giorgio"
+							"value": "andrea"
 						},
 						{
 							"key": "cognome",
-							"value": "tirella"
+							"value": "scrimieri"
 						}
 					]
 				}
