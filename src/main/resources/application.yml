@@ -5,7 +5,7 @@ server:
 
 spring:
   datasource:
-    url: ${DB_URL:dbc:mariadb://localhost:3307/User}
+    url: ${DB_URL:jdbc:mariadb://localhost:3307/User}
     username: ${DB_USR:user}
     password: ${DB_PSW:password}
     driver-class-name: org.mariadb.jdbc.Driver

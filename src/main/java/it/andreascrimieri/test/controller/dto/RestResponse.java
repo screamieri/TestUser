@@ -8,11 +8,16 @@ import java.util.Objects;
 
 @Getter
 @Setter
-@Builder
 public class RestResponse<T> {
-    private String code;
+    private Integer code;
     private String message;
     private T content;
+
+    public RestResponse(Integer code, String message, T content) {
+        this.code = code;
+        this.message = message;
+        this.content = content;
+    }
 
     @Override
     public boolean equals(Object o) {

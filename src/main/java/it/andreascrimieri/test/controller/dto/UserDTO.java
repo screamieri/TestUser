@@ -1,5 +1,6 @@
 package it.andreascrimieri.test.controller.dto;
 
+import com.opencsv.bean.CsvBindByPosition;
 import lombok.*;
 
 import java.util.Objects;
@@ -11,9 +12,13 @@ import java.util.Objects;
 @AllArgsConstructor
 public class UserDTO {
     private Long id;
+    @CsvBindByPosition(position = 0)
     private String nome;
+    @CsvBindByPosition(position = 1)
     private String cognome;
+    @CsvBindByPosition(position = 2)
     private String indirizzo;
+    @CsvBindByPosition(position = 3)
     private String email;
 
     @Override
